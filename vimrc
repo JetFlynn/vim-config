@@ -202,11 +202,6 @@ map <leader>ge :Gedit<CR>
 map <leader>gd :Gdiff<CR>
 map <leader>gc :Gcommit<CR>
 Plug 'airblade/vim-gitgutter'
-
-" Run gutter on save
-autocmd BufWritePost * GitGutter
-
-" Theme
-Plug 'chriskempson/base16-vim'
+autocmd BufWritePost * GitGutter " Run gutter on save
 
 call plug#end()
