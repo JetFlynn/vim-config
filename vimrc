@@ -136,6 +136,9 @@ if exists("+showtabline")
     highlight link TabNum Special
 endif
 
+" Tags autocomlite
+:iabbrev <// </<C-X><C-O>
+
 """
 """ KEYBOARD
 """
@@ -211,5 +214,12 @@ map <leader>gd :Gdiff<CR>
 map <leader>gc :Gcommit<CR>
 Plug 'airblade/vim-gitgutter'
 autocmd BufWritePost * GitGutter " Run gutter on save
+
+"""
+""" Specific plugins
+"""
+
+" Helper for ruby end word
+Plug 'tpope/vim-endwise'
 
 call plug#end()
