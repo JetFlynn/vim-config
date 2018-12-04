@@ -164,6 +164,14 @@ call plug#begin()
 " Colorscheme
 Plug 'morhetz/gruvbox'
 
+" Autocomplete
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
+
 " Ranger
 Plug 'francoiscabrol/ranger.vim'
 map <leader>ar :Ranger<CR>
