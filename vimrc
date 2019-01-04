@@ -55,9 +55,6 @@ set hlsearch
 " Show search matches as you type
 set incsearch
 
-" Allow the use of 256 colors in the terminal
-" set t_Co=256
-
 " Allow true colors
 set termguicolors
 
@@ -136,7 +133,6 @@ if exists("+showtabline")
     highlight link TabNum Special
 endif
 
-
 " Search for current selection
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
@@ -146,9 +142,6 @@ function! s:VSetSearch(cmdtype)
   let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
   let @s = temp
 endfunction
-
-" Tags autocomlite
-:iabbrev <// </<C-X><C-O>
 
 """
 """ KEYBOARD
@@ -175,6 +168,9 @@ map <leader>t/ :tabonly<CR>
 
 call plug#begin()
 
+" Handy navigation keybindings
+Plug 'tpope/vim-unimpaired'
+
 " Extend % functionality
 runtime macros/matchit.vim
 
@@ -188,6 +184,10 @@ Plug 'roxma/vim-hug-neovim-rpc'
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
+
+" Emmet
+Plug 'mattn/emmet-vim'
+let g:user_emmet_leader_key=','
 
 " Ranger
 Plug 'francoiscabrol/ranger.vim'
