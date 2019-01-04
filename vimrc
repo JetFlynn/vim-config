@@ -228,9 +228,16 @@ map <leader>gc :Gcommit<CR>
 Plug 'airblade/vim-gitgutter'
 autocmd BufWritePost * GitGutter " Run gutter on save
 
+" Add tags file autoupdate with regards to gitignore
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_file_list_command = 'rg --files'
+
 """
 """ Specific plugins
 """
+
+" Helper for rails
+Plug 'tpope/vim-rails'
 
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
