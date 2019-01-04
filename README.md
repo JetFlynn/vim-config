@@ -1,2 +1,3 @@
 # vim-config
-My vim configuration
+
+Light vim configuration
