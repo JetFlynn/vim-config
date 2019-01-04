@@ -136,6 +136,17 @@ if exists("+showtabline")
     highlight link TabNum Special
 endif
 
+
+" Search for current selection
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
+function! s:VSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
 " Tags autocomlite
 :iabbrev <// </<C-X><C-O>
 
@@ -164,6 +175,9 @@ map <leader>t/ :tabonly<CR>
 
 call plug#begin()
 
+" Extend % functionality
+runtime macros/matchit.vim
+
 " Colorscheme
 Plug 'morhetz/gruvbox'
 
@@ -177,7 +191,7 @@ autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 
 " Ranger
 Plug 'francoiscabrol/ranger.vim'
-map <leader>ar :Ranger<CR>
+map <leader>r :Ranger<CR>
 
 " Async linter
 Plug 'w0rp/ale'
@@ -196,16 +210,15 @@ Plug 'tpope/vim-surround'
 " FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-map <leader>pf :Files<CR>
-map <leader>pb :Buffers<CR>
-map <leader>s/ :Ag<CR>
+map <leader>p :Files<CR>
+map <leader>b :Buffers<CR>
+map <leader>/ :Ag<CR>
 
 " Syntax highlight
 Plug 'sheerun/vim-polyglot'
 
 " Git
 Plug 'iberianpig/tig-explorer.vim'
-map <leader>gt :Tig<CR>
 Plug 'tpope/vim-fugitive'
 map <leader>gb :Gblame<CR>
 map <leader>gs :Gstatus<CR>
