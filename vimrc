@@ -232,6 +232,11 @@ autocmd BufWritePost * GitGutter " Run gutter on save
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_file_list_command = 'rg --files'
 
+" Indent guides
+Plug 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_enable_on_vim_startup = 1
+map <leader>i :IndentGuidesToggle<CR>
+
 """
 """ Specific plugins
 """
