@@ -241,8 +241,11 @@ map <leader>i :IndentGuidesToggle<CR>
 """ Specific plugins
 """
 
-" Helper for rails
+" gf for rails
 Plug 'tpope/vim-rails'
+
+" gf for node
+Plug 'moll/vim-node'
 
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
