@@ -24,6 +24,7 @@ set nowb
 
 " Automatic syntax highlight
 syntax on
+
 " Fix syntax disappearing
 autocmd BufEnter * :syntax sync fromstart
 
@@ -149,6 +150,9 @@ endfunction
 
 " Set up leader key
 let mapleader = " "
+
+" Hotkey to access current vimrc
+command Vimrc e $MYVIMRC
 
 " Window
 map <leader>wv :vsplit<CR>
