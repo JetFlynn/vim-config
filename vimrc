@@ -154,9 +154,13 @@ let mapleader = " "
 " Hotkey to access current vimrc
 command Vimrc e $MYVIMRC
 
+" Htkey for current buffer path
+command Path let @+ = expand("%")
+
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
+
 " Window
-map <leader>wv :vsplit<CR>
-map <leader>wh :split<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -217,6 +221,12 @@ Plug 'junegunn/fzf.vim'
 map <leader>p :Files<CR>
 map <leader>b :Buffers<CR>
 map <leader>/ :Ag<CR>
+map <leader>l :Lines<CR>
+map <leader>; :BLines<CR>
+map <leader>h: :History:<CR>
+map <leader>h/ :History/<CR>
+map <leader>c :BCommits<CR>
+map <leader>w :Windows<CR>
 
 " Syntax highlight
 Plug 'sheerun/vim-polyglot'
@@ -247,9 +257,6 @@ map <leader>i :IndentGuidesToggle<CR>
 
 " gf for rails
 Plug 'tpope/vim-rails'
-
-" gf for node
-Plug 'moll/vim-node'
 
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
