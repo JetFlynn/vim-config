@@ -2,6 +2,9 @@
 """ COMMON SETTINGS
 """
 
+" Get directory for
+let s:dirname = expand("<sfile>:p:h")
+
 " Enable VI improved features
 set nocompatible
 
@@ -21,6 +24,11 @@ set backspace=indent,eol,start
 set noswapfile
 set nobackup
 set nowb
+
+" Lowering timeout after pressing esc
+set ttimeout
+set ttimeoutlen=0
+set timeoutlen=1000
 
 " Automatic syntax highlight
 syntax on
@@ -155,7 +163,7 @@ let mapleader = " "
 command Vimrc e $MYVIMRC
 
 " Htkey for current buffer path
-command Path let @+ = expand("%")
+command Path let @+ = './' . expand("%")
 
 " select last paste in visual mode
 nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -165,6 +173,9 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Efficient esc
+inoremap kj <Esc>
 
 " Tabs
 map <leader>tn :tabnew<CR>
@@ -242,6 +253,9 @@ map <leader>gc :Gcommit<CR>
 Plug 'airblade/vim-gitgutter'
 autocmd BufWritePost * GitGutter " Run gutter on save
 
+" snake case to camelcase and vise versa
+Plug 'tpope/vim-abolish'
+
 " Add tags file autoupdate with regards to gitignore
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_file_list_command = 'rg --files'
@@ -251,14 +265,51 @@ Plug 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 1
 map <leader>i :IndentGuidesToggle<CR>
 
+" Cool navigation with tmux
+Plug 'christoomey/vim-tmux-navigator'
+
+" Even more cool integration with tmux
+Plug 'benmills/vimux'
+
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane
+map <Leader>vi :VimuxInspectRunner<CR>
+" Zoom the tmux runner pane
+map <Leader>vz :VimuxZoomRunner<CR>
+
+" Faster copy to clipboard
+noremap <Leader>y "+y
+
 """
-""" Specific plugins
+""" Specific plugins and hacks
 """
+
+""" Ruby
 
 " gf for rails
 Plug 'tpope/vim-rails'
-
+" Htkey for current path for rspec
+command Rspec let @+ = 'ecom rspec ./' . expand("%")
+" Htkey for fast access migrations
+ca Emig :Emigration
+" fix rubocop highlight problems
+highlight AleWarning guifg=#000000
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
 
+""" Golang
+
+" go tools
+Plug 'govim/govim'
+
 call plug#end()
+
+""" Alacritty fix
+
+" fix alacritty
+if &term == "alacritty"
+  let &term = "xterm-256color"
+endif
