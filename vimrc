@@ -67,7 +67,7 @@ set incsearch
 " Allow true colors
 set termguicolors
 
-" Highlight column 81 to help keep lines of code 80 characters or less
+" Highlight column 121 to help keep lines of code 120 characters or less
 set colorcolumn=121
 
 " Remove trailing spaces when saving a file
@@ -84,14 +84,6 @@ set background=dark
 let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"
 let &t_EI = "\<Esc>[2 q"
-
-" Relative numbers
-:set number relativenumber
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
 
 " Open new splits to right and below
 set splitbelow
@@ -196,21 +188,21 @@ runtime macros/matchit.vim
 " Colorscheme
 Plug 'morhetz/gruvbox'
 
-" Autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
+" Conquer Of Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Emmet
 Plug 'mattn/emmet-vim'
 let g:user_emmet_leader_key=','
 
-" Ranger
+" LF and Ranger
+Plug 'ptzz/lf.vim'
+Plug 'voldikss/vim-floaterm'
 Plug 'francoiscabrol/ranger.vim'
 map <leader>r :Ranger<CR>
+map <leader>e :Lf<CR>
 
 " Async linter
 Plug 'w0rp/ale'
@@ -245,8 +237,8 @@ Plug 'sheerun/vim-polyglot'
 " Git
 Plug 'iberianpig/tig-explorer.vim'
 Plug 'tpope/vim-fugitive'
-map <leader>gb :Gblame<CR>
-map <leader>gs :Gstatus<CR>
+map <leader>gb :Git blame<CR>
+map <leader>gs :Git<CR>
 map <leader>ge :Gedit<CR>
 map <leader>gd :Gdiff<CR>
 map <leader>gc :Gcommit<CR>
@@ -255,10 +247,6 @@ autocmd BufWritePost * GitGutter " Run gutter on save
 
 " snake case to camelcase and vise versa
 Plug 'tpope/vim-abolish'
-
-" Add tags file autoupdate with regards to gitignore
-Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_file_list_command = 'rg --files'
 
 " Indent guides
 Plug 'nathanaelkane/vim-indent-guides'
@@ -292,11 +280,11 @@ noremap <Leader>y "+y
 " gf for rails
 Plug 'tpope/vim-rails'
 " Htkey for current path for rspec
-command Rspec let @+ = 'ecom rspec ./' . expand("%")
+command Rspec let @+ = 'icom rspec ./' . expand("%")
 " Htkey for fast access migrations
 ca Emig :Emigration
 " fix rubocop highlight problems
-highlight AleWarning guifg=#000000
+highlight AleWarning guibg=#6e2000
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
 
