@@ -300,11 +300,6 @@ highlight AleWarning guifg=#000000
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
 
-""" Golang
-
-" go tools
-Plug 'govim/govim'
-
 call plug#end()
 
 """ Alacritty fix
