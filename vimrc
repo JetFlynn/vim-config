@@ -36,6 +36,9 @@ syntax on
 " Fix syntax disappearing
 autocmd BufEnter * :syntax sync fromstart
 
+" Fix typescript hanging by enabling different regexp system
+set re=2
+
 " Reload files modified outside of Vim
 set autoread
 
@@ -89,50 +92,50 @@ let &t_EI = "\<Esc>[2 q"
 set splitbelow
 set splitright
 
-" Tabs index
-if exists("+showtabline")
-    function! MyTabLine()
-        let s = ''
-        let wn = ''
-        let t = tabpagenr()
-        let i = 1
-        while i <= tabpagenr('$')
-            let buflist = tabpagebuflist(i)
-            let winnr = tabpagewinnr(i)
-            let s .= '%' . i . 'T'
-            let s .= (i == t ? '%1*' : '%2*')
-            let s .= ' '
-            let wn = tabpagewinnr(i,'$')
-
-            let s .= '%#TabNum#'
-            let s .= i
-            " let s .= '%*'
-            let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
-            let bufnr = buflist[winnr - 1]
-            let file = bufname(bufnr)
-            let buftype = getbufvar(bufnr, 'buftype')
-            if buftype == 'nofile'
-                if file =~ '\/.'
-                    let file = substitute(file, '.*\/\ze.', '', '')
-                endif
-            else
-                let file = fnamemodify(file, ':p:t')
-            endif
-            if file == ''
-                let file = '[No Name]'
-            endif
-            let s .= ' ' . file . ' '
-            let i = i + 1
-        endwhile
-        let s .= '%T%#TabLineFill#%='
-        let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
-        return s
-    endfunction
-    set stal=2
-    set tabline=%!MyTabLine()
-    set showtabline=1
-    highlight link TabNum Special
-endif
+"" Tabs index
+"if exists("+showtabline")
+"    function! MyTabLine()
+"        let s = ''
+"        let wn = ''
+"        let t = tabpagenr()
+"        let i = 1
+"        while i <= tabpagenr('$')
+"            let buflist = tabpagebuflist(i)
+"            let winnr = tabpagewinnr(i)
+"            let s .= '%' . i . 'T'
+"            let s .= (i == t ? '%1*' : '%2*')
+"            let s .= ' '
+"            let wn = tabpagewinnr(i,'$')
+"
+"            let s .= '%#TabNum#'
+"            let s .= i
+"            " let s .= '%*'
+"            let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+"            let bufnr = buflist[winnr - 1]
+"            let file = bufname(bufnr)
+"            let buftype = getbufvar(bufnr, 'buftype')
+"            if buftype == 'nofile'
+"                if file =~ '\/.'
+"                    let file = substitute(file, '.*\/\ze.', '', '')
+"                endif
+"            else
+"                let file = fnamemodify(file, ':p:t')
+"            endif
+"            if file == ''
+"                let file = '[No Name]'
+"            endif
+"            let s .= ' ' . file . ' '
+"            let i = i + 1
+"        endwhile
+"        let s .= '%T%#TabLineFill#%='
+"        let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+"        return s
+"    endfunction
+"    set stal=2
+"    set tabline=%!MyTabLine()
+"    set showtabline=1
+"    highlight link TabNum Special
+"endif
 
 " Search for current selection
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
@@ -153,6 +156,9 @@ let mapleader = " "
 
 " Hotkey to access current vimrc
 command Vimrc e $MYVIMRC
+
+" Hotkey to access aliases
+command Zshrc e '/home/jet/.zshrc'
 
 " Htkey for current buffer path
 command Path let @+ = './' . expand("%")
@@ -190,8 +196,6 @@ Plug 'morhetz/gruvbox'
 
 " Conquer Of Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Emmet
 Plug 'mattn/emmet-vim'
@@ -221,7 +225,7 @@ Plug 'tpope/vim-surround'
 " FZF
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-map <leader>p :Files<CR>
+map <leader>p :GFiles<CR>
 map <leader>b :Buffers<CR>
 map <leader>/ :Ag<CR>
 map <leader>l :Lines<CR>
@@ -234,6 +238,9 @@ map <leader>w :Windows<CR>
 " Syntax highlight
 Plug 'sheerun/vim-polyglot'
 
+" Autofix
+Plug 'zpieslak/vim-autofix'
+
 " Git
 Plug 'iberianpig/tig-explorer.vim'
 Plug 'tpope/vim-fugitive'
@@ -242,7 +249,7 @@ map <leader>gs :Git<CR>
 map <leader>ge :Gedit<CR>
 map <leader>gd :Gdiff<CR>
 map <leader>gc :Gcommit<CR>
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter', { 'branch': 'main' }
 autocmd BufWritePost * GitGutter " Run gutter on save
 
 " snake case to camelcase and vise versa
@@ -275,6 +282,16 @@ noremap <Leader>y "+y
 """ Specific plugins and hacks
 """
 
+""" AI
+
+" Codeium
+Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+imap <C-j>   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <C-k>   <Cmd>call codeium#CycleCompletions(-1)<CR>
+
+" ChatGPT
+Plug 'madox2/vim-ai'
+
 """ Ruby
 
 " gf for rails
@@ -287,6 +304,14 @@ ca Emig :Emigration
 highlight AleWarning guibg=#6e2000
 " Helper for ruby end word
 Plug 'tpope/vim-endwise'
+
+""" Other
+
+" Yml helper
+Plug 'lmeijvogel/vim-yaml-helper'
+
+""" C#
+Plug 'OmniSharp/omnisharp-vim'
 
 call plug#end()
 
